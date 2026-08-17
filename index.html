@@ -3,154 +3,344 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OptiPixel - Bulk Image Optimizer</title>
+  <title>OptiPixel Luxury - Bulk Image Optimizer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   
   <style>
-    @keyframes pulse-dot {
-      0% { opacity: 0.2; transform: scale(0.8); }
-      50% { opacity: 1; transform: scale(1.2); }
-      100% { opacity: 0.2; transform: scale(0.8); }
+    @keyframes pulse-gold {
+      0% { opacity: 0.3; transform: scale(0.85); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+      50% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 10px 3px rgba(212, 175, 55, 0.4); }
+      100% { opacity: 0.3; transform: scale(0.85); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
     }
-    .animate-blink { animation: pulse-dot 1.5s infinite; }
+    .animate-blink-gold {
+      animation: pulse-gold 1.8s infinite;
+    }
+    /* Gold Gradient Utilities */
+    .bg-gold-gradient {
+      background: linear-gradient(135deg, #F5D77F 0%, #D4AF37 50%, #AA7C11 100%);
+    }
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #FFF0B8 0%, #E6CA65 50%, #C99726 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .border-gold-glow {
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.08);
+    }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
+<body class="bg-[#0b0c10] text-amber-50 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500 selection:text-black">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-      <!-- Judul Utama -->
+  <header class="border-b border-amber-950/60 bg-[#0e1017]/90 backdrop-blur sticky top-0 z-50 shadow-lg shadow-black/40">
+    <div class="max-w-5xl mx-auto px-4 py-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">OP</div>
+          <div class="w-10 h-10 rounded-xl bg-gold-gradient p-[1px] shadow-lg shadow-amber-950/50">
+            <div class="w-full h-full bg-black rounded-[11px] flex items-center justify-center font-bold text-sm text-gold-gradient tracking-wider">
+              OP
+            </div>
+          </div>
           <div>
-            <h1 class="text-base font-semibold tracking-tight leading-tight">OptiPixel</h1>
-            <p class="text-xs text-slate-400">100% Client-Side Bulk Compressor</p>
+            <h1 class="text-lg font-bold tracking-wide text-gold-gradient">OptiPixel <span class="text-xs uppercase px-2 py-0.5 rounded border border-amber-500/40 text-amber-300 font-normal">Luxury</span></h1>
+            <p class="text-[11px] text-amber-200/60 tracking-wider">Bulk Client-Side Image Engine</p>
           </div>
         </div>
+
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium bg-amber-950/40 text-amber-300 border border-amber-500/30 shadow-inner">
+          100% Private Offline
+        </span>
       </div>
-      
-      <!-- Posisi Baru Identitas Developer -->
-      <div class="flex items-center justify-center mt-3 pt-3 border-t border-slate-800/50">
-        <div class="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-blink"></span>
-          <span>developer: fatur62</span>
+
+      <div class="flex items-center justify-center mt-3 pt-2.5 border-t border-amber-900/30">
+        <div class="flex items-center space-x-2 text-[10px] uppercase tracking-[0.25em] text-amber-300/70 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-[#D4AF37] animate-blink-gold"></span>
+          <span>developer : <strong class="text-amber-200 font-bold">fatur62</strong></span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 space-y-6">
-    <!-- Config Panel -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-800/60 p-5 rounded-2xl border border-slate-700/60 shadow-xl">
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Format</label>
-        <select id="formatSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-          <option value="image/webp" selected>WebP</option>
-          <option value="image/jpeg">JPEG</option>
-          <option value="image/png">PNG</option>
-        </select>
-      </div>
-      <div>
-        <div class="flex justify-between items-center mb-2">
-          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">Kualitas</label>
-          <span id="qualityVal" class="text-xs font-mono font-bold text-indigo-400">80%</span>
-        </div>
-        <input id="qualityRange" type="range" min="10" max="100" value="80" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500">
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Lebar (px)</label>
-        <input id="maxWidthInput" type="number" placeholder="Original" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-      </div>
-    </div>
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6 space-y-6">
 
-    <!-- Drop Zone -->
-    <div id="dropZone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-2xl p-8 text-center bg-slate-800/30 transition cursor-pointer flex flex-col items-center justify-center space-y-3">
-      <div class="text-indigo-400"><svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
-      <p class="text-sm font-semibold text-slate-200">Klik atau geser gambar ke sini</p>
+    <section class="bg-[#12151e]/90 border-gold-glow rounded-2xl p-5 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-amber-900/30 pb-3">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-amber-400/90 flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+          Pengaturan Konversi
+        </h2>
+        <span class="text-[11px] text-amber-200/50">Proses langsung di RAM perangkat</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+        <div>
+          <label for="formatSelect" class="block text-xs font-semibold text-amber-200/80 mb-2">Format Tujuan</label>
+          <select id="formatSelect" class="w-full bg-[#0a0c12] border border-amber-500/30 rounded-xl px-3.5 py-2.5 text-sm text-amber-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
+            <option value="image/webp" selected>WebP (Kompresi Terbaik & Ringan)</option>
+            <option value="image/jpeg">JPEG / JPG (Universal)</option>
+            <option value="image/png">PNG (Grafis / Transparan)</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label for="qualityRange" class="block text-xs font-semibold text-amber-200/80">Kualitas Kompresi</label>
+            <span id="qualityVal" class="text-xs font-mono font-bold text-amber-400">80%</span>
+          </div>
+          <input id="qualityRange" type="range" min="10" max="100" value="80" class="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]">
+        </div>
+
+        <div>
+          <label for="maxWidthInput" class="block text-xs font-semibold text-amber-200/80 mb-2">Batas Lebar Gambar (Opsional)</label>
+          <input id="maxWidthInput" type="number" placeholder="Contoh: 1920 (Kosongkan jika asli)" class="w-full bg-[#0a0c12] border border-amber-500/30 rounded-xl px-3.5 py-2 text-sm text-amber-100 placeholder:text-neutral-600 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
+        </div>
+      </div>
+    </section>
+
+    <div id="dropZone" class="border-2 border-dashed border-amber-500/30 hover:border-amber-400 bg-[#12151e]/40 hover:bg-[#12151e]/80 rounded-2xl p-8 text-center transition duration-300 cursor-pointer flex flex-col items-center justify-center space-y-3 group">
+      <div class="w-14 h-14 rounded-2xl bg-amber-950/40 border border-amber-500/30 text-amber-400 flex items-center justify-center group-hover:scale-110 group-hover:border-amber-400 transition duration-300 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-amber-100">Klik untuk memilih file atau seret & lepas ke sini</p>
+        <p class="text-xs text-amber-300/50 mt-1">Bisa pilih banyak gambar sekaligus (Batch Processing)</p>
+      </div>
       <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
     </div>
 
-    <!-- Stats -->
-    <div id="statsBar" class="hidden items-center justify-between bg-slate-800 p-4 rounded-xl border border-slate-700">
-      <div class="text-xs text-slate-300">Total: <span id="totalCount" class="font-bold text-white">0</span> | Hemat: <span id="totalSaved" class="font-bold text-emerald-400">0 KB</span></div>
-      <button id="downloadAllBtn" class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white transition">Unduh (.ZIP)</button>
+    <div id="statsBar" class="hidden flex-col sm:flex-row items-start sm:items-center justify-between bg-gradient-to-r from-amber-950/40 to-[#12151e] p-4 rounded-xl border border-amber-500/40 gap-3 shadow-lg">
+      <div>
+        <div class="text-xs sm:text-sm text-amber-200">
+          Total File: <span id="totalCount" class="font-bold text-amber-300">0</span> &bull; 
+          Hemat Ruang: <span id="totalSaved" class="font-bold text-emerald-400 font-mono">0 KB (0%)</span>
+        </div>
+        <p class="text-[11px] text-amber-400/60 mt-0.5">📦 Unduh semua file sekaligus dalam 1 berkas arsip .ZIP</p>
+      </div>
+      
+      <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+        <button id="clearBtn" class="px-3 py-2 rounded-lg border border-amber-800/60 hover:border-amber-600 text-xs font-medium text-amber-300/80 hover:text-amber-100 transition">
+          Bersihkan
+        </button>
+        <button id="downloadAllBtn" class="px-4 py-2 rounded-lg bg-gold-gradient hover:brightness-110 text-black text-xs font-bold shadow-lg shadow-amber-900/40 transition flex items-center space-x-1.5">
+          <span>Unduh Semua Sekaligus (.ZIP)</span>
+        </button>
+      </div>
     </div>
 
-    <div id="itemsList" class="space-y-3"></div>
+    <div class="space-y-2">
+      <div id="listHeader" class="hidden justify-between items-center px-1 text-xs text-amber-400/60 uppercase tracking-wider font-semibold">
+        <span>Daftar Gambar</span>
+        <span>Unduh Satuan</span>
+      </div>
+      <div id="itemsList" class="space-y-3"></div>
+    </div>
+
   </main>
 
-  <!-- Script Logic -->
+  <footer class="border-t border-amber-950/50 py-5 text-center text-xs text-amber-400/40 mt-auto">
+    OptiPixel Luxury Edition &bull; Murni diolah oleh browser tanpa server
+  </footer>
+
   <script>
     'use strict';
-    const state = { files: [] };
-    const dropZone = document.getElementById('dropZone'), fileInput = document.getElementById('fileInput'), qualityRange = document.getElementById('qualityRange'), qualityVal = document.getElementById('qualityVal'), formatSelect = document.getElementById('formatSelect'), maxWidthInput = document.getElementById('maxWidthInput'), itemsList = document.getElementById('itemsList'), statsBar = document.getElementById('statsBar'), totalCount = document.getElementById('totalCount'), totalSaved = document.getElementById('totalSaved'), downloadAllBtn = document.getElementById('downloadAllBtn');
 
-    const formatBytes = (b) => { if(b<=0) return '0 B'; const k=1024, i=Math.floor(Math.log(b)/Math.log(k)); return parseFloat((b/Math.pow(k, i)).toFixed(1)) + [' B',' KB',' MB'][i]; };
-    
+    const state = { files: [] };
+
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const qualityRange = document.getElementById('qualityRange');
+    const qualityVal = document.getElementById('qualityVal');
+    const formatSelect = document.getElementById('formatSelect');
+    const maxWidthInput = document.getElementById('maxWidthInput');
+    const itemsList = document.getElementById('itemsList');
+    const listHeader = document.getElementById('listHeader');
+    const statsBar = document.getElementById('statsBar');
+    const totalCount = document.getElementById('totalCount');
+    const totalSaved = document.getElementById('totalSaved');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+
+    const formatBytes = (bytes, decimals = 1) => {
+      if (!bytes || bytes <= 0) return '0 B';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+    };
+
+    const getExtension = () => {
+      const fmt = formatSelect.value;
+      if (fmt === 'image/jpeg') return 'jpg';
+      if (fmt === 'image/png') return 'png';
+      return 'webp';
+    };
+
     const compressImage = async (file, options) => {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = (e) => { img.src = e.target.result; };
+        reader.onerror = () => reject(new Error('Gagal membaca file'));
+
         img.onload = () => {
-          let {width, height} = img;
+          let { width, height } = img;
           const maxWidth = parseInt(options.maxWidth, 10);
-          if(maxWidth && width > maxWidth) { height = Math.round((height * maxWidth) / width); width = maxWidth; }
+
+          if (maxWidth && width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+
           const canvas = document.createElement('canvas');
-          canvas.width = width; canvas.height = height;
+          canvas.width = width;
+          canvas.height = height;
+
           const ctx = canvas.getContext('2d');
-          if(options.format === 'image/jpeg') { ctx.fillStyle = '#FFF'; ctx.fillRect(0,0,width,height); }
+          if (!ctx) {
+            reject(new Error('Canvas context tidak tersedia'));
+            return;
+          }
+
+          if (options.format === 'image/jpeg') {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, width, height);
+          }
+
           ctx.drawImage(img, 0, 0, width, height);
-          canvas.toBlob(resolve, options.format, options.quality);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error('Gagal memproses gambar'));
+            },
+            options.format,
+            options.quality
+          );
         };
-        img.src = URL.createObjectURL(file);
+
+        img.onerror = () => reject(new Error('Format file tidak didukung'));
+        reader.readAsDataURL(file);
       });
     };
 
-    const processFiles = async () => {
-      for(let item of state.files.filter(f => f.status === 'pending')) {
-        item.status = 'processing'; render();
-        const blob = await compressImage(item.originalFile, { quality: qualityRange.value/100, format: formatSelect.value, maxWidth: maxWidthInput.value });
-        item.compressedBlob = blob; item.compressedSize = blob.size; item.status = 'done'; item.previewUrl = URL.createObjectURL(blob);
+    const processAllFiles = async () => {
+      const quality = parseFloat(qualityRange.value) / 100;
+      const format = formatSelect.value;
+      const maxWidth = maxWidthInput.value;
+
+      for (let item of state.files) {
+        if (item.status === 'done') continue;
+        item.status = 'processing';
+        renderItems();
+
+        try {
+          const blob = await compressImage(item.originalFile, { quality, format, maxWidth });
+          item.compressedBlob = blob;
+          item.compressedSize = blob.size;
+          item.status = 'done';
+          item.previewUrl = URL.createObjectURL(blob);
+        } catch (err) {
+          item.status = 'error';
+          console.error(err);
+        }
       }
-      render(); updateStats();
+      renderItems();
+      updateStats();
+    };
+
+    const handleFiles = (incomingFiles) => {
+      if (!incomingFiles || incomingFiles.length === 0) return;
+
+      const validFiles = Array.from(incomingFiles).filter(file => file.type.startsWith('image/'));
+
+      validFiles.forEach((file) => {
+        const id = `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+        state.files.push({
+          id,
+          originalFile: file,
+          originalSize: file.size,
+          compressedBlob: null,
+          compressedSize: 0,
+          status: 'pending',
+          previewUrl: null
+        });
+      });
+
+      processAllFiles();
     };
 
     const updateStats = () => {
-      statsBar.classList.remove('hidden'); statsBar.classList.add('flex');
-      let orig = 0, comp = 0;
-      state.files.filter(f => f.status === 'done').forEach(f => { orig += f.originalSize; comp += f.compressedSize; });
-      totalCount.textContent = state.files.length;
-      totalSaved.textContent = formatBytes(Math.max(0, orig - comp));
+      const total = state.files.length;
+      if (total === 0) {
+        statsBar.classList.add('hidden');
+        statsBar.classList.remove('flex');
+        listHeader.classList.add('hidden');
+        listHeader.classList.remove('flex');
+        return;
+      }
+
+      statsBar.classList.remove('hidden');
+      statsBar.classList.add('flex');
+      listHeader.classList.remove('hidden');
+      listHeader.classList.add('flex');
+
+      let originalTotal = 0;
+      let compressedTotal = 0;
+
+      state.files.forEach(f => {
+        if (f.status === 'done') {
+          originalTotal += f.originalSize;
+          compressedTotal += f.compressedSize;
+        }
+      });
+
+      const savedBytes = Math.max(0, originalTotal - compressedTotal);
+      const savedPercent = originalTotal > 0 ? Math.round((savedBytes / originalTotal) * 100) : 0;
+
+      totalCount.textContent = total;
+      totalSaved.textContent = `${formatBytes(savedBytes)} (${savedPercent}%)`;
     };
 
-    const render = () => {
-      itemsList.innerHTML = state.files.map(item => `
-        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-3 flex items-center justify-between">
-          <div class="flex items-center space-x-3 overflow-hidden">
-            <div class="w-10 h-10 rounded-lg bg-slate-900 border border-slate-700 flex-shrink-0"><img src="${item.previewUrl || ''}" class="w-full h-full object-cover rounded-lg"></div>
-            <div class="text-xs text-slate-300 truncate">${item.originalFile.name}</div>
+    const renderItems = () => {
+      itemsList.innerHTML = '';
+      const currentExt = getExtension().toUpperCase();
+
+      state.files.forEach((item) => {
+        const ext = getExtension();
+        const baseName = item.originalFile.name.substring(0, item.originalFile.name.lastIndexOf('.')) || item.originalFile.name;
+        const newFileName = `${baseName}_optimized.${ext}`;
+        
+        const card = document.createElement('div');
+        card.className = 'bg-[#12151e] border border-amber-500/20 hover:border-amber-500/40 rounded-xl p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md transition';
+
+        const reduction = item.compressedSize > 0 
+          ? Math.round(((item.originalSize - item.compressedSize) / item.originalSize) * 100) 
+          : 0;
+
+        card.innerHTML = `
+          <div class="flex items-center space-x-3 w-full sm:w-auto overflow-hidden">
+            <div class="w-12 h-12 rounded-lg bg-black border border-amber-500/20 flex-shrink-0 flex items-center justify-center overflow-hidden">
+              ${item.previewUrl ? `<img src="${item.previewUrl}" class="w-full h-full object-cover" alt="Preview">` : `<span class="text-xs text-amber-500/40">...</span>`}
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs sm:text-sm font-semibold text-amber-100 truncate">${item.originalFile.name}</p>
+              <div class="flex items-center space-x-2 text-[11px] text-amber-300/60 mt-0.5">
+                <span>${formatBytes(item.originalSize)}</span>
+                <span>&rarr;</span>
+                <span class="text-amber-300 font-bold font-mono">${item.compressedSize ? formatBytes(item.compressedSize) : '...'}</span>
+                ${item.status === 'done' ? `<span class="font-bold ${reduction >= 0 ? 'text-emerald-400' : 'text-rose-400'}">(${reduction >= 0 ? `-${reduction}%` : `+${Math.abs(reduction)}%`})</span>` : ''}
+              </div>
+            </div>
           </div>
-          ${item.status === 'done' ? `<a href="${item.previewUrl}" download class="text-indigo-400 font-bold text-xs">Unduh</a>` : '<span class="text-xs animate-pulse text-indigo-500">Proses...</span>'}
-        </div>
-      `).join('');
-    };
 
-    dropZone.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', (e) => {
-      Array.from(e.target.files).forEach(f => state.files.push({originalFile: f, originalSize: f.size, status: 'pending'}));
-      processFiles();
-    });
-    qualityRange.addEventListener('input', (e) => qualityVal.textContent = e.target.value + '%');
-    
-    downloadAllBtn.addEventListener('click', async () => {
-      const zip = new JSZip();
-      state.files.forEach((f, i) => zip.file(`img_${i}.webp`, f.compressedBlob));
-      const blob = await zip.generateAsync({type:'blob'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'OptiPixel_Batch.zip'; a.click();
-    });
-  </script>
-</body>
-</html>
+          <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-2">
+            ${item.status === 'processing' ? `<span class="text-xs text-amber-400 font-medium animate-pulse">Mengoptimasi...</span>` : ''}
+            ${item.status === 'error' ? `<span class="text-xs text-rose-400 font-medium">Gagal</span>` : ''}
+            ${item.status === 'done' ? `
+              <a href="${item.previewUrl}" download="${newFileName}" title="Unduh gambar ini saja" class="px-3.5 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900/80 border border-amber-500/40 text-xs font-semibold text-amber-200 transition flex items-center space-x-1">
+                <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l
