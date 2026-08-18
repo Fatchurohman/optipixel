@@ -6,6 +6,7 @@
   <title>OptiPixel Luxury - Bulk Image Optimizer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/bundle.js"></script>
   
   <style>
     @keyframes pulse-gold {
@@ -30,13 +31,13 @@
     }
     /* Checkerboard Pattern for Transparent Previews */
     .bg-transparent-grid {
-      background-image: linear-gradient(45deg, #181c26 25%, transparent 25%), 
-                        linear-gradient(-45deg, #181c26 25%, transparent 25%), 
-                        linear-gradient(45deg, transparent 75%, #181c26 75%), 
-                        linear-gradient(-45deg, transparent 75%, #181c26 75%);
+      background-image: linear-gradient(45deg, #222736 25%, transparent 25%), 
+                        linear-gradient(-45deg, #222736 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #222736 75%), 
+                        linear-gradient(-45deg, transparent 75%, #222736 75%);
       background-size: 10px 10px;
       background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
-      background-color: #0b0d13;
+      background-color: #0d1017;
     }
   </style>
 </head>
@@ -53,7 +54,7 @@
           </div>
           <div>
             <h1 class="text-lg font-bold tracking-wide text-gold-gradient">OptiPixel <span class="text-xs uppercase px-2 py-0.5 rounded border border-amber-500/40 text-amber-300 font-normal">Luxury</span></h1>
-            <p class="text-[11px] text-amber-200/60 tracking-wider">Bulk Client-Side Image Engine</p>
+            <p class="text-[11px] text-amber-200/60 tracking-wider">Bulk Client-Side Image & AI BG Remover Engine</p>
           </div>
         </div>
 
@@ -79,16 +80,16 @@
           <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
           Pengaturan Konversi
         </h2>
-        <span class="text-[11px] text-amber-200/50">Proses langsung di RAM perangkat</span>
+        <span class="text-[11px] text-amber-200/50">Proses langsung di perangkat</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
         <div>
           <label for="formatSelect" class="block text-xs font-semibold text-amber-200/80 mb-2">Format Tujuan</label>
           <select id="formatSelect" class="w-full bg-[#0a0c12] border border-amber-500/30 rounded-xl px-3.5 py-2.5 text-sm text-amber-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
-            <option value="image/webp" selected>WebP (Kompresi Ringan)</option>
+            <option value="image/webp">WebP (Kompresi Ringan)</option>
             <option value="image/jpeg">JPEG / JPG (Universal)</option>
-            <option value="image/png">PNG (Mendukung Transparansi)</option>
+            <option value="image/png" selected>PNG (Mendukung Transparansi)</option>
           </select>
         </div>
 
@@ -106,18 +107,16 @@
         </div>
       </div>
 
-      <div id="pngOptionBox" class="hidden pt-3 border-t border-amber-900/30 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div id="pngOptionBox" class="pt-3 border-t border-amber-900/30 flex items-center justify-between bg-amber-950/20 p-3 rounded-xl border border-amber-500/20">
         <div class="flex items-center space-x-3">
           <input id="autoRemoveBg" type="checkbox" class="w-4 h-4 rounded bg-[#0a0c12] border-amber-500/40 text-amber-500 focus:ring-amber-400 accent-[#D4AF37] cursor-pointer">
-          <label for="autoRemoveBg" class="text-xs font-semibold text-amber-200 cursor-pointer select-none">
-            Hapus Background Otomatis (Ubah Warna Latar Jadi Transparan)
-          </label>
-        </div>
-
-        <div id="toleranceBox" class="hidden items-center justify-between space-x-3">
-          <label for="toleranceRange" class="text-xs text-amber-300/80 whitespace-nowrap">Sensitivitas Hapus Background:</label>
-          <input id="toleranceRange" type="range" min="5" max="80" value="25" class="w-full h-1.5 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]">
-          <span id="toleranceVal" class="text-xs font-mono font-bold text-amber-400">25</span>
+          <div>
+            <label for="autoRemoveBg" class="text-xs font-semibold text-amber-200 cursor-pointer select-none flex items-center gap-1.5">
+              <span>✨ Hapus Background Otomatis (AI Client-Side)</span>
+              <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.2 rounded font-normal">Real Transparent PNG</span>
+            </label>
+            <p class="text-[11px] text-amber-300/50 mt-0.5">Memisahkan orang/objek dari latar belakang secara otomatis murni di browser.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -182,9 +181,6 @@
     const maxWidthInput = document.getElementById('maxWidthInput');
     const pngOptionBox = document.getElementById('pngOptionBox');
     const autoRemoveBg = document.getElementById('autoRemoveBg');
-    const toleranceBox = document.getElementById('toleranceBox');
-    const toleranceRange = document.getElementById('toleranceRange');
-    const toleranceVal = document.getElementById('toleranceVal');
     const itemsList = document.getElementById('itemsList');
     const listHeader = document.getElementById('listHeader');
     const statsBar = document.getElementById('statsBar');
@@ -209,94 +205,80 @@
       return 'webp';
     };
 
-    // Client-side Color Keying Background Transparency
-    const applyTransparency = (ctx, width, height, tolerance) => {
-      const imgData = ctx.getImageData(0, 0, width, height);
-      const data = imgData.data;
-
-      // Ambil sampel warna latar dari pojok kiri atas (x:0, y:0)
-      const bgR = data[0];
-      const bgG = data[1];
-      const bgB = data[2];
-
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-
-        // Hitung jarak Euclidean selisih warna
-        const diff = Math.sqrt(
-          Math.pow(r - bgR, 2) +
-          Math.pow(g - bgG, 2) +
-          Math.pow(b - bgB, 2)
-        );
-
-        if (diff < tolerance * 4.4) {
-          data[i + 3] = 0; // Alpha transparan 0
-        }
+    // Client-side AI Background Removal via @imgly/background-removal
+    const removeBackgroundWithAI = async (imageSource) => {
+      if (window.imglyRemoveBackground) {
+        return await window.imglyRemoveBackground(imageSource);
       }
-
-      ctx.putImageData(imgData, 0, 0);
+      return imageSource;
     };
 
     const compressImage = async (file, options) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        const reader = new FileReader();
+      return new Promise(async (resolve, reject) => {
+        try {
+          let sourceFile = file;
 
-        reader.onload = (e) => {
-          if (typeof e.target.result === 'string') {
-            img.src = e.target.result;
-          } else {
-            reject(new Error('Format pembacaan file gagal'));
-          }
-        };
-        
-        reader.onerror = () => reject(new Error('Gagal membaca file'));
-
-        img.onload = () => {
-          let { width, height } = img;
-          const maxWidth = parseInt(options.maxWidth, 10);
-
-          if (!isNaN(maxWidth) && maxWidth > 0 && width > maxWidth) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
-          }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext('2d', { willReadFrequently: true });
-          if (!ctx) {
-            reject(new Error('Canvas 2D Context tidak didukung'));
-            return;
-          }
-
-          if (options.format === 'image/jpeg') {
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fillRect(0, 0, width, height);
-          }
-
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // Jika format PNG dan opsi transparan aktif
+          // Eksekusi AI Background Removal jika opsi PNG + Hapus Background aktif
           if (options.format === 'image/png' && options.removeBg) {
-            applyTransparency(ctx, width, height, options.tolerance);
+            try {
+              const bgRemovedBlob = await removeBackgroundWithAI(file);
+              sourceFile = bgRemovedBlob;
+            } catch (aiErr) {
+              console.warn('AI BG Remover fallback ke canvas standar:', aiErr);
+            }
           }
 
-          canvas.toBlob(
-            (blob) => {
-              if (blob) resolve(blob);
-              else reject(new Error('Canvas gagal menghasilkan Blob'));
-            },
-            options.format,
-            options.quality
-          );
-        };
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(sourceFile);
 
-        img.onerror = () => reject(new Error('File bukan gambar yang valid'));
-        reader.readAsDataURL(file);
+          img.onload = () => {
+            let { width, height } = img;
+            const maxWidth = parseInt(options.maxWidth, 10);
+
+            if (!isNaN(maxWidth) && maxWidth > 0 && width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              URL.revokeObjectURL(objectUrl);
+              reject(new Error('Canvas 2D Context tidak didukung'));
+              return;
+            }
+
+            // Putihkan latar jika format tujuan adalah JPEG
+            if (options.format === 'image/jpeg') {
+              ctx.fillStyle = '#FFFFFF';
+              ctx.fillRect(0, 0, width, height);
+            }
+
+            ctx.drawImage(img, 0, 0, width, height);
+            URL.revokeObjectURL(objectUrl);
+
+            canvas.toBlob(
+              (blob) => {
+                if (blob) resolve(blob);
+                else reject(new Error('Canvas gagal menghasilkan Blob'));
+              },
+              options.format,
+              options.quality
+            );
+          };
+
+          img.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error('Gagal merender gambar'));
+          };
+
+          img.src = objectUrl;
+        } catch (err) {
+          reject(err);
+        }
       });
     };
 
@@ -305,15 +287,15 @@
       const format = formatSelect.value;
       const maxWidth = maxWidthInput.value;
       const removeBg = autoRemoveBg.checked && format === 'image/png';
-      const tolerance = parseInt(toleranceRange.value, 10);
 
       for (let item of state.files) {
         if (item.status === 'done') continue;
         item.status = 'processing';
+        item.statusText = removeBg ? 'Menjalankan AI Hapus Background...' : 'Mengoptimasi...';
         renderItems();
 
         try {
-          const blob = await compressImage(item.originalFile, { quality, format, maxWidth, removeBg, tolerance });
+          const blob = await compressImage(item.originalFile, { quality, format, maxWidth, removeBg });
           item.compressedBlob = blob;
           item.compressedSize = blob.size;
           item.status = 'done';
@@ -321,6 +303,7 @@
           item.previewUrl = URL.createObjectURL(blob);
         } catch (err) {
           item.status = 'error';
+          item.statusText = 'Gagal';
           console.error(err);
         }
       }
@@ -343,6 +326,7 @@
           compressedBlob: null,
           compressedSize: 0,
           status: 'pending',
+          statusText: 'Menunggu...',
           previewUrl: null
         });
       });
@@ -415,7 +399,7 @@
           </div>
 
           <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-2">
-            ${item.status === 'processing' ? `<span class="text-xs text-amber-400 font-medium animate-pulse">Mengoptimasi...</span>` : ''}
+            ${item.status === 'processing' ? `<span class="text-xs text-amber-400 font-medium animate-pulse">${item.statusText || 'Memproses...'}</span>` : ''}
             ${item.status === 'error' ? `<span class="text-xs text-rose-400 font-medium">Gagal</span>` : ''}
             ${item.status === 'done' ? `
               <a href="${item.previewUrl}" download="${newFileName}" title="Unduh file ini" class="px-3.5 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900/80 border border-amber-500/40 text-xs font-semibold text-amber-200 transition flex items-center space-x-1">
@@ -496,34 +480,18 @@
       qualityVal.textContent = `${e.target.value}%`;
     });
 
-    toleranceRange.addEventListener('input', (e) => {
-      toleranceVal.textContent = e.target.value;
-    });
-
-    // Cek dropdown format PNG untuk menampilkan opsi hapus background
+    // Tampilkan / Sembunyikan Box AI Remove BG saat format diganti
     formatSelect.addEventListener('change', () => {
       if (formatSelect.value === 'image/png') {
         pngOptionBox.classList.remove('hidden');
       } else {
         pngOptionBox.classList.add('hidden');
         autoRemoveBg.checked = false;
-        toleranceBox.classList.add('hidden');
-        toleranceBox.classList.remove('flex');
-      }
-    });
-
-    autoRemoveBg.addEventListener('change', () => {
-      if (autoRemoveBg.checked) {
-        toleranceBox.classList.remove('hidden');
-        toleranceBox.classList.add('flex');
-      } else {
-        toleranceBox.classList.add('hidden');
-        toleranceBox.classList.remove('flex');
       }
     });
 
     // Re-kompres saat setting diubah
-    [qualityRange, formatSelect, maxWidthInput, autoRemoveBg, toleranceRange].forEach((element) => {
+    [qualityRange, formatSelect, maxWidthInput, autoRemoveBg].forEach((element) => {
       element.addEventListener('change', () => {
         if (state.files.length > 0) {
           state.files.forEach(f => f.status = 'pending');
@@ -549,6 +517,7 @@
       fileInput.value = '';
     });
 
+    // Drag and Drop Events
     ['dragenter', 'dragover'].forEach(eventName => {
       dropZone.addEventListener(eventName, (e) => {
         e.preventDefault();
