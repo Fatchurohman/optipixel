@@ -28,15 +28,15 @@
       border: 1px solid rgba(212, 175, 55, 0.35);
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.08);
     }
-    /* Papan Catur Transparan */
+    /* Grid Papan Catur untuk Transparansi */
     .bg-transparent-grid {
-      background-image: linear-gradient(45deg, #222736 25%, transparent 25%), 
-                        linear-gradient(-45deg, #222736 25%, transparent 25%), 
-                        linear-gradient(45deg, transparent 75%, #222736 75%), 
-                        linear-gradient(-45deg, transparent 75%, #222736 75%);
+      background-image: linear-gradient(45deg, #1d222e 25%, transparent 25%), 
+                        linear-gradient(-45deg, #1d222e 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #1d222e 75%), 
+                        linear-gradient(-45deg, transparent 75%, #1d222e 75%);
       background-size: 10px 10px;
       background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
-      background-color: #0d1017;
+      background-color: #0b0d13;
     }
   </style>
 </head>
@@ -58,7 +58,7 @@
         </div>
 
         <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium bg-amber-950/40 text-amber-300 border border-amber-500/30 shadow-inner">
-          100% Client-Side Engine
+          100% Private Offline
         </span>
       </div>
 
@@ -79,16 +79,16 @@
           <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
           Pengaturan Konversi
         </h2>
-        <span class="text-[11px] text-amber-200/50">Diproses langsung oleh prosesor HP</span>
+        <span class="text-[11px] text-amber-200/50">Diproses langsung oleh prosesor perangkat</span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
         <div>
           <label for="formatSelect" class="block text-xs font-semibold text-amber-200/80 mb-2">Format Tujuan</label>
           <select id="formatSelect" class="w-full bg-[#0a0c12] border border-amber-500/30 rounded-xl px-3.5 py-2.5 text-sm text-amber-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
-            <option value="image/webp">WebP (Ukuran Paling Ringan)</option>
-            <option value="image/jpeg">JPEG / JPG (Universal)</option>
-            <option value="image/png" selected>PNG (Mendukung Transparansi)</option>
+            <option value="image/webp" selected>WebP (Ukuran Paling Ringan & Cepat)</option>
+            <option value="image/jpeg">JPEG / JPG (Format Universal)</option>
+            <option value="image/png">PNG (Kualitas Lossless / Asli)</option>
           </select>
         </div>
 
@@ -102,33 +102,7 @@
 
         <div>
           <label for="maxWidthInput" class="block text-xs font-semibold text-amber-200/80 mb-2">Batas Lebar (px) - Opsional</label>
-          <input id="maxWidthInput" type="number" placeholder="Contoh: 1200 (Kosong = Asli)" class="w-full bg-[#0a0c12] border border-amber-500/30 rounded-xl px-3.5 py-2 text-sm text-amber-100 placeholder:text-neutral-600 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
-        </div>
-      </div>
-
-      <div id="pngOptionBox" class="pt-3 border-t border-amber-900/30 space-y-3">
-        <div class="flex items-center space-x-3 bg-amber-950/20 p-3 rounded-xl border border-amber-500/20">
-          <input id="autoRemoveBg" type="checkbox" class="w-4 h-4 rounded bg-[#0a0c12] border-amber-500/40 text-amber-500 focus:ring-amber-400 accent-[#D4AF37] cursor-pointer">
-          <div class="flex-1">
-            <label for="autoRemoveBg" class="text-xs font-semibold text-amber-200 cursor-pointer select-none flex items-center gap-1.5">
-              <span>Hapus Latar Belakang (Transparan)</span>
-              <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-700 px-1.5 py-0.2 rounded font-normal">Active Transparent</span>
-            </label>
-            <p class="text-[11px] text-amber-300/60 mt-0.5">Menghapus area warna latar (putih, solid, atau warna tepi) secara otomatis menjadi transparan.</p>
-          </div>
-        </div>
-
-        <div id="toleranceContainer" class="hidden grid-cols-1 sm:grid-cols-2 gap-4 bg-[#0e1017] p-3 rounded-xl border border-amber-900/40">
-          <div>
-            <div class="flex justify-between items-center mb-1">
-              <label for="toleranceRange" class="text-xs font-semibold text-amber-200/80">Toleransi Pemotongan Latar:</label>
-              <span id="toleranceVal" class="text-xs font-mono font-bold text-amber-400">30</span>
-            </div>
-            <input id="toleranceRange" type="range" min="5" max="90" value="30" class="w-full h-1.5 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]">
-          </div>
-          <div class="text-[11px] text-amber-300/60 flex items-center">
-            💡 Geser ke kanan jika sisa-sisa background masih ada; geser ke kiri jika objek utama ikut terpotong.
-          </div>
+          <input id="maxWidthInput" type="number" placeholder="Contoh: 1920 (Kosong = Asli)" class="w-full bg-[#0a0c12] border border-amber-500/30 rounded-xl px-3.5 py-2 text-sm text-amber-100 placeholder:text-neutral-600 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition">
         </div>
       </div>
     </section>
@@ -143,7 +117,7 @@
       </div>
       <div>
         <p class="text-sm font-semibold text-amber-100 pointer-events-none">Klik untuk memilih file atau seret & lepas ke sini</p>
-        <p class="text-xs text-amber-300/50 mt-1 pointer-events-none">Bisa pilih banyak foto sekaligus</p>
+        <p class="text-xs text-amber-300/50 mt-1 pointer-events-none">Bisa pilih banyak foto sekaligus (Bulk Processing)</p>
       </div>
     </div>
 
@@ -153,7 +127,7 @@
           Total File: <span id="totalCount" class="font-bold text-amber-300">0</span> &bull; 
           Hemat Ruang: <span id="totalSaved" class="font-bold text-emerald-400 font-mono">0 KB (0%)</span>
         </div>
-        <p class="text-[11px] text-amber-400/60 mt-0.5">📦 Unduh seluruh hasil sekaligus dalam 1 file .ZIP</p>
+        <p class="text-[11px] text-amber-400/60 mt-0.5">📦 Unduh seluruh hasil sekaligus dalam 1 berkas arsip .ZIP</p>
       </div>
       
       <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
@@ -177,7 +151,7 @@
   </main>
 
   <footer class="border-t border-amber-950/50 py-5 text-center text-xs text-amber-400/40 mt-auto">
-    OptiPixel Luxury Edition &bull; 100% Native Client-Side Pixel Processing
+    OptiPixel Luxury Edition &bull; 100% Native Client-Side Engine
   </footer>
 
   <script>
@@ -191,11 +165,6 @@
     const qualityVal = document.getElementById('qualityVal');
     const formatSelect = document.getElementById('formatSelect');
     const maxWidthInput = document.getElementById('maxWidthInput');
-    const pngOptionBox = document.getElementById('pngOptionBox');
-    const autoRemoveBg = document.getElementById('autoRemoveBg');
-    const toleranceContainer = document.getElementById('toleranceContainer');
-    const toleranceRange = document.getElementById('toleranceRange');
-    const toleranceVal = document.getElementById('toleranceVal');
     const itemsList = document.getElementById('itemsList');
     const listHeader = document.getElementById('listHeader');
     const statsBar = document.getElementById('statsBar');
@@ -220,44 +189,6 @@
       return 'webp';
     };
 
-    // Algoritma Pemotong Background Multi-Sample (Pojok 4 Sudut + Toleransi)
-    const executeTransparency = (ctx, width, height, tolerance) => {
-      const imgData = ctx.getImageData(0, 0, width, height);
-      const data = imgData.data;
-
-      // Ambil 4 sampel warna dari sudut: Top-Left, Top-Right, Bottom-Left, Bottom-Right
-      const samples = [
-        { r: data[0], g: data[1], b: data[2] },
-        { r: data[(width - 1) * 4], g: data[(width - 1) * 4 + 1], b: data[(width - 1) * 4 + 2] },
-        { r: data[(height - 1) * width * 4], g: data[(height - 1) * width * 4 + 1], b: data[(height - 1) * width * 4 + 2] },
-        { r: data[data.length - 4], g: data[data.length - 3], b: data[data.length - 2] }
-      ];
-
-      const threshold = tolerance * 3.5;
-
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-
-        // Cek apakah piksel mendekati salah satu warna sudut
-        let matchesBg = false;
-        for (const s of samples) {
-          const diff = Math.sqrt(Math.pow(r - s.r, 2) + Math.pow(g - s.g, 2) + Math.pow(b - s.b, 2));
-          if (diff <= threshold) {
-            matchesBg = true;
-            break;
-          }
-        }
-
-        if (matchesBg) {
-          data[i + 3] = 0; // Transparan penuh
-        }
-      }
-
-      ctx.putImageData(imgData, 0, 0);
-    };
-
     const compressImage = async (file, options) => {
       return new Promise((resolve, reject) => {
         const img = new Image();
@@ -271,7 +202,7 @@
           }
         };
         
-        reader.onerror = () => reject(new Error('Gagal membaca file'));
+        reader.onerror = () => reject(new Error('Gagal membaca file dari disk'));
 
         img.onload = () => {
           let { width, height } = img;
@@ -286,12 +217,13 @@
           canvas.width = width;
           canvas.height = height;
 
-          const ctx = canvas.getContext('2d', { willReadFrequently: true });
+          const ctx = canvas.getContext('2d');
           if (!ctx) {
             reject(new Error('Canvas context tidak didukung'));
             return;
           }
 
+          // Latar belakang putih hanya jika format tujuan JPEG
           if (options.format === 'image/jpeg') {
             ctx.fillStyle = '#FFFFFF';
             ctx.fillRect(0, 0, width, height);
@@ -299,22 +231,20 @@
 
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Terapkan Transparansi jika mode PNG + Hapus Background aktif
-          if (options.format === 'image/png' && options.removeBg) {
-            executeTransparency(ctx, width, height, options.tolerance);
-          }
-
           canvas.toBlob(
             (blob) => {
-              if (blob) resolve(blob);
-              else reject(new Error('Canvas gagal menghasilkan Blob'));
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error('Canvas gagal menghasilkan Blob'));
+              }
             },
             options.format,
             options.quality
           );
         };
 
-        img.onerror = () => reject(new Error('File gambar rusak atau tidak valid'));
+        img.onerror = () => reject(new Error('File bukan gambar yang valid'));
         reader.readAsDataURL(file);
       });
     };
@@ -323,20 +253,14 @@
       const quality = parseFloat(qualityRange.value) / 100;
       const format = formatSelect.value;
       const maxWidth = maxWidthInput.value;
-      const removeBg = autoRemoveBg.checked && format === 'image/png';
-      const tolerance = parseInt(toleranceRange.value, 10);
 
       for (let item of state.files) {
         if (item.status === 'done') continue;
         item.status = 'processing';
-        item.statusText = 'Memproses...';
         renderItems();
 
-        // Beri jeda 80ms agar animasi loading di UI HP terlihat jelas
-        await new Promise(r => setTimeout(r, 80));
-
         try {
-          const blob = await compressImage(item.originalFile, { quality, format, maxWidth, removeBg, tolerance });
+          const blob = await compressImage(item.originalFile, { quality, format, maxWidth });
           item.compressedBlob = blob;
           item.compressedSize = blob.size;
           item.status = 'done';
@@ -344,7 +268,6 @@
           item.previewUrl = URL.createObjectURL(blob);
         } catch (err) {
           item.status = 'error';
-          item.statusText = 'Gagal';
           console.error(err);
         }
       }
@@ -367,7 +290,6 @@
           compressedBlob: null,
           compressedSize: 0,
           status: 'pending',
-          statusText: 'Menunggu...',
           previewUrl: null
         });
       });
@@ -440,7 +362,7 @@
           </div>
 
           <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-2">
-            ${item.status === 'processing' ? `<span class="text-xs text-amber-400 font-medium animate-pulse">${item.statusText || 'Memproses...'}</span>` : ''}
+            ${item.status === 'processing' ? `<span class="text-xs text-amber-400 font-medium animate-pulse">Mengoptimasi...</span>` : ''}
             ${item.status === 'error' ? `<span class="text-xs text-rose-400 font-medium">Gagal</span>` : ''}
             ${item.status === 'done' ? `
               <a href="${item.previewUrl}" download="${newFileName}" title="Unduh file ini" class="px-3.5 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900/80 border border-amber-500/40 text-xs font-semibold text-amber-200 transition flex items-center space-x-1">
@@ -521,33 +443,8 @@
       qualityVal.textContent = `${e.target.value}%`;
     });
 
-    toleranceRange.addEventListener('input', (e) => {
-      toleranceVal.textContent = e.target.value;
-    });
-
-    formatSelect.addEventListener('change', () => {
-      if (formatSelect.value === 'image/png') {
-        pngOptionBox.classList.remove('hidden');
-      } else {
-        pngOptionBox.classList.add('hidden');
-        autoRemoveBg.checked = false;
-        toleranceContainer.classList.add('hidden');
-        toleranceContainer.classList.remove('grid');
-      }
-    });
-
-    autoRemoveBg.addEventListener('change', () => {
-      if (autoRemoveBg.checked) {
-        toleranceContainer.classList.remove('hidden');
-        toleranceContainer.classList.add('grid');
-      } else {
-        toleranceContainer.classList.add('hidden');
-        toleranceContainer.classList.remove('grid');
-      }
-    });
-
     // Re-kompres saat setting diubah
-    [qualityRange, formatSelect, maxWidthInput, autoRemoveBg, toleranceRange].forEach((element) => {
+    [qualityRange, formatSelect, maxWidthInput].forEach((element) => {
       element.addEventListener('change', () => {
         if (state.files.length > 0) {
           state.files.forEach(f => f.status = 'pending');
